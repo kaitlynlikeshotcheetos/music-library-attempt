@@ -1,0 +1,410 @@
+body {
+    font-family: 'PT Serif', serif;
+    background-color: #F3F3F3;  
+    color: #1B3D6D; 
+    padding-top: 20px;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: #47763B; 
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+label, th {
+    color: #47763B; 
+    font-weight: 700;
+}
+
+/* Search Styles */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #999;  
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #8c8c8c;
+}
+
+
+.filter-checkboxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+
+.filter-section {
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border: 1px solid #ccc;
+}
+
+
+.form-check-input {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #47763B;
+    border-radius: 5px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-right: 5px;
+}
+
+.form-check-input:checked {
+    background-color: #8EBA66;
+    border-color: #8EBA66;
+}
+
+.form-check-input:hover {
+    background-color: #8EBA66;
+    border-color: #8EBA66;
+    color: #8EBA66;  
+}
+
+.form-check-label {
+    font-size: 15px;
+    font-weight: normal;
+    color: #47763B;
+    padding-left:10px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.3s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.form-check-label:hover {
+    color: #8EBA66;
+}
+
+/* Sort Styles */
+.sort-dropdown {
+    margin-top: 20px;
+    margin-bottom:20px;
+}
+
+.sort-dropdown label {
+    font-size: 20px;
+    color: #47763B;  
+    margin-right: 10px;
+}
+
+.sort-dropdown select {
+    width: 200px;
+    height: 40px;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.sort-dropdown select:hover {
+    background-color: #e9e9e9;
+}
+
+.sort-dropdown select:focus {
+    outline: none;
+    border-color: #8c8c8c;
+}
+
+/* Button Styles */
+button {
+    background-color: #8EBA66;  
+    color: white;
+    border: none;
+    padding: 10px 15px;  
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #47763B;  
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Music Entry Styles */
+.music-entry {
+    margin-bottom: 30px;
+}
+
+.score {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);  
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.score:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.score-header {
+    color: white;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    margin-bottom: 10px;
+    display: flex; 
+    justify-content: space-between;  
+    align-items: center; 
+}
+
+.score-header h3 {
+    font-size: 1.3em;  
+    margin: 0;
+    color: #47763B;
+}
+
+
+.score-header p {
+    font-size: 0.9em;
+    margin: 0;  
+    color: #8c8c8c;
+}
+
+.score-info {
+    font-size: 1em;
+    color: #1B3D6D;  
+    line-height: 1.6;
+}
+
+.additional-info p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #666;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Link Styles */
+a {
+    text-decoration: none;
+    color: #1B3D6D;  
+}
+
+a:hover {
+    color: #47763B;  
+}
+
+/* Composer Music Styles */
+.composer-music {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.composer-music .music-entry {
+    margin-bottom: 10px;
+}
+
+
+/* Composer Menu Styles */
+.composer-menu {
+    position: fixed;  
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-height: 60vh;
+    overflow-y: auto;
+    max-width: 200px; 
+    z-index: 9999;  
+    cursor: grab;  
+}
+
+.composer-menu.hidden {
+    display: none;  
+}
+
+.toggle-composer-menu {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;  
+    cursor: pointer;
+}
+
+.composer-menu:active {
+    cursor: grabbing;  
+}
+ 
+.composer-menu textarea, 
+.composer-menu input[type="text"] {
+    cursor: text;
+}
+
+.composer-menu h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #47763B;  
+}
+
+.composer-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.composer-menu li {
+    margin-bottom: 8px;
+}
+
+.composer-menu a {
+    text-decoration: none;
+    color: #1B3D6D;  
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.composer-menu a:hover {
+    color: #47763B;  
+}
+ 
+.go-to-top {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    height: auto;
+    cursor: pointer;
+}
+
+#toggleImage {
+    width: 80%;
+    height: auto;
+}
+
+.checkbox-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;  
+    justify-content: flex-start;  
+}
+
+
+@media (min-width: 576px) {
+    .music-entry {
+        flex: 1 0 48%; /* Two columns on medium screens */
+    }
+}
+
+@media (min-width: 768px) {
+    .music-entry {
+        flex: 1 0 30%; /* Three columns on larger screens */
+    }
+}
+
+
+}
+
+@media (min-width: 768px) {
+    button {
+        width: auto;
+        max-width: none;
+        margin-bottom: 0;
+    }
+}
+
+
+
+.tooltip {
+    visibility: hidden;
+    background-color: black;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    margin-left: -30px; /* Adjust as needed */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.toggle-composer-menu:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.other-filter {
+    padding-top:15px;
+}
+
+.fa-users,
+.fa-users-slash {
+    font-size: 3rem;  
+}
+
+/* Tooltip container */
+.tooltip2 {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 120px; /* Increase the width to make the circle bigger */
+    height: 120px;
+    cursor: pointer;
+    padding: 5px; /* Add padding for the outline */
+    text-align: center;
+    display: inline-block;
+    transition: opacity 0.3s; /* Add a transition effect for smooth visibility */
+    padding:5px;
+}
+
+/* Tooltip text */
+.tooltip2 .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%; /* Position tooltip above the button */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Show the tooltip text when hovering over the button */
+.tooltip2:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+

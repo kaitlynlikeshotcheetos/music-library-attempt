@@ -1,0 +1,76 @@
+/* styles.css */
+
+/* Global Styles */
+body {
+    font-family: 'PT Serif', serif;
+    background-color: #F3F3F3;
+    color: #1B3D6D;
+    padding-top: 20px;
+    margin: 0;
+}
+
+h1 {
+    font-family: 'Montserrat', sans-serif;
+    color: #47763B;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+a {
+    color: #1B3D6D;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #47763B;
+}
+
+
+/* Main Content */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.photo-upload {
+    margin-bottom: 30px;
+}
+
+.photo-upload input[type="file"] {
+    display: none;
+}
+
+.photo-upload label {
+    background-color: #8EBA66;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.photo-upload label:hover {
+    background-color: #47763B;
+}
+
+.photo-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.photo {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.photo:hover {
+    transform: scale(1.05);
+}
+
+/* Additional Styles specific to your content can be added here */

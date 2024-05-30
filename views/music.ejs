@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/music.css">
+</head>
+<body>
+<%- include('navbar.ejs') %>
+<h1 class="text-center mt-5 mb-4">Welcome to the Music Library!</h1>
+
+<div class="search-container">
+    <div> 
+        <input type="text" id="searchInput" class="search-input" placeholder="Search...">
+    </div>
+</div>
+<div class="container mb-4">
+   <div class="filter-section">
+        <label for="styleFilter">Filter by Style</label>
+        <span id="styleToggleIcon" class="toggle-icon fas fa-chevron-down ml-2" data-toggle="collapse" data-target="#styleFilter" aria-expanded="false" aria-controls="styleFilter" style="cursor:pointer;"></span>
+        <div id="styleFilter" class="collapse filter-checkboxes">
+            <% uniqueStyles.forEach(style => { %>
+            <div class="form-check col-md-3">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input style-checkbox" value="<%= style %>" id="style-<%= style %>">
+                    <label class="form-check-label" for="style-<%= style %>"><%= style %></label>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+    <div class="filter-section">
+        <label for="formatFilter">Filter by Format</label>
+        <span id="formatToggleIcon" class="toggle-icon fas fa-chevron-down ml-2" data-toggle="collapse" data-target="#formatFilter" aria-expanded="false" aria-controls="formatFilter" style="cursor:pointer;"></span>
+        <div id="formatFilter" class="collapse filter-checkboxes">
+            <% uniqueFormats.forEach(format => { %>
+            <div class="form-check col-md-3">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input format-checkbox" value="<%= format %>" id="format-<%= format %>">
+                    <label class="form-check-label" for="format-<%= format %>"><%= format %></label>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+    
+    <div class="other-filter">
+        <label for="auxFilter">Filter by Aux. Winds and Perc. Added</label>
+        <span id="auxToggleIcon" class="toggle-icon toggle-large fas fa-toggle-off fa-thin ml-2" style="cursor: pointer;"></span>
+        <label id="checkDiv" class="ml-3" style="display: none;">
+            Shown: <input class="ml-2" type="checkbox" id="showAuxiliary">
+        </label>
+    </div>
+   
+    <div class="row">
+        <div class="col-md-6 mb-4 sort-dropdown">
+            <form id="orderForm">
+                <label for="sortBy" class="sort-label">Sort By:</label>
+                <select id="sortBy" name="sortBy" class="sort-select">
+                    <option value="Number" <%= sortBy === 'Number' ? 'selected' : '' %>>Number</option>
+                    <option value="Title" <%= sortBy === 'Title' ? 'selected' : '' %>>Title</option>
+                    <option value="Grade" <%= sortBy === 'Grade' ? 'selected' : '' %>>Grade</option>
+                    <option value="Composer" <%= sortBy === 'Composer' ? 'selected' : '' %>>Composer</option>
+                </select>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <button id="toggleScores" class="btn btn-primary float-right">Condense</button>
+        </div>
+    </div>
+    <button id="addScoreButton" class="btn btn-success mb-3">Add New Score</button>
+
+   
+    <div class="row">
+        <% if(sortBy === 'Composer') { %>
+            <div id="composerMenu" class="composer-menu">
+                <h3>Composers</h3>
+                <ul>
+                    <% Object.keys(composers).sort().forEach(composer => { %>
+                        <li><a href="#<%= composer %>"><%= composer %></a></li>
+                    <% }) %>
+                </ul>
+            </div>
+        <div class="container">
+            <% Object.keys(composers).sort().forEach(composer => { %>
+                <div class="col-md-12" id="<%= composer %>">
+                    <h3><%= composer %></h3>
+                    <div class="composer-music">
+                        <% composers[composer].forEach(elem => { %>
+                            <div class="col-md-6 col-lg-4 music-entry">
+                                <a href="/music/<%= elem._id %>" style="color: inherit; text-decoration: none;">
+                                    <div class="score">
+                                        <div class="score-header">
+                                            <h3 class="mb-0"><%= elem.Title %></h3>
+                                            <p class="mb-0"><small><%= elem.Number %></small></p>
+                                        </div>
+                                        <div class="score-info">
+                                            <p class="composer"><strong>Composer:</strong> <%= elem.Composer %></p>
+                                            <div class="additional-info">
+                                                <p><strong>Arranger:</strong> <%= elem.Arranger %></p>
+                                                <p><strong>Publisher:</strong> <%= elem.Publisher %></p>
+                                                <p><strong>Style:</strong> <%= elem.Style %></p>
+                                                <p><strong>Grade:</strong> <%= elem.Grade %></p>
+                                                <p><strong>Time:</strong> <%= elem.Time %></p>
+                                                <p><strong>Format:</strong> <%= elem.Format %></p>
+                                                <p><strong>Aux. Winds & Perc. Added:</strong>
+                                                <input type="checkbox" disabled <%= elem.AuxWindsPercAdded ? 'checked' : '' %>></p>
+                                                <p><strong>Notes:</strong> <%= elem.Notes %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            <% }) %>
+            <div id="toggleComposerMenu" class="toggle-composer-menu">
+                <i id="toggleIcon" class="fa-solid fa-users-slash"></i>
+                <span class="tooltip">Click to show/hide the composer menu!</span>
+            </div>
+
+
+
+
+        <% } else { %>
+            <% data.forEach(elem => { %>
+                <div class="col-md-6 col-lg-4 music-entry">
+                    <a href="/music/<%= elem._id %>" style="color: inherit; text-decoration: none;">
+                        <div class="score">
+                            <div class="score-header">
+                                <h3 class="mb-0"><%= elem.Title %></h3>
+                                <p class="mb-0"><small><%= elem.Number %></small></p>
+                            </div>
+                            <div class="score-info">
+                                <p class="composer"><strong>Composer:</strong> <%= elem.Composer %></p>
+                                <div class="additional-info">
+                                    <p><strong>Arranger:</strong> <%= elem.Arranger %></p>
+                                    <p><strong>Publisher:</strong> <%= elem.Publisher %></p>
+                                    <p><strong>Style:</strong> <%= elem.Style %></p>
+                                    <p><strong>Grade:</strong> <%= elem.Grade %></p>
+                                    <p><strong>Time:</strong> <%= elem.Time %></p>
+                                    <p><strong>Format:</strong> <%= elem.Format %></p>
+                                    <p><strong>Aux. Winds & Perc. Added:</strong>
+                                    <input type="checkbox" disabled <%= elem.AuxWindsPercAdded ? 'checked' : '' %>></p>
+                                    <p><strong>Notes:</strong> <%= elem.Notes %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+</div>
+
+</div>
+</body>
+<a href="#" id="goToTop" class="tooltip2">
+    <img src="scrollTop.png" style="position: fixed; bottom: 20px; left: 20px; width: 100px; height: auto; cursor: pointer;" alt="Scroll to Top">
+    <span class="tooltiptext">Click to scroll to the top!</span>
+</a>
+
+
+
+<script src="node_modules/@fortawesome/fontawesome-free/js/all.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('sortBy').addEventListener('change', function() {
+        this.form.submit();
+    });
+
+    const select = document.getElementById('sortBy');
+    select.addEventListener('mouseover', function() {
+        const options = this.options;
+        for (let i = 0; i < options.length; i++) {
+            options[i].addEventListener('mouseover', function() {
+                this.style.backgroundColor = '#8EBA66'; 
+                this.style.color = 'white';
+            });
+            options[i].addEventListener('mouseout', function() {
+                this.style.backgroundColor = ''; 
+                this.style.color = '';
+            });
+        }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+        function normalizeText(text) {
+            return text.trim().toLowerCase();
+        }
+        
+        
+        const auxToggleIcon = document.getElementById('auxToggleIcon');
+    const checkDiv = document.getElementById('checkDiv');
+    const auxCheckbox = document.getElementById('showAuxiliary');
+    let auxFilter = false;
+
+    auxToggleIcon.addEventListener('click', function () {
+        auxFilter = !auxFilter;
+        if (auxFilter) {
+            auxToggleIcon.classList.remove('fa-toggle-off');
+            auxToggleIcon.classList.add('fa-toggle-on');
+            checkDiv.style.display = 'inline';
+        } else {
+            auxToggleIcon.classList.remove('fa-toggle-on');
+            auxToggleIcon.classList.add('fa-toggle-off');
+            checkDiv.style.display = 'none';
+        }
+        filterMusicEntries();
+    });
+
+    function filterMusicEntries() {
+    const checkedStyles = Array.from(document.querySelectorAll('.style-checkbox:checked')).map(checkbox => normalizeText(checkbox.value));
+    const checkedFormats = Array.from(document.querySelectorAll('.format-checkbox:checked')).map(checkbox => normalizeText(checkbox.value));
+    const auxChecked = document.getElementById('showAuxiliary').checked; // Get the state of the showAuxiliary checkbox
+
+    const allEntries = document.querySelectorAll('.music-entry');
+    allEntries.forEach(entry => {
+        const styleElements = entry.querySelectorAll('.score-info p');
+        let styleFound = checkedStyles.length === 0;
+        let formatFound = checkedFormats.length === 0;
+
+        styleElements.forEach(styleElement => {
+            const styleText = normalizeText(styleElement.textContent);
+            if (styleText.includes('style:')) {
+                const style = styleText.split(':')[1].trim();
+                if (checkedStyles.includes(style)) {
+                    styleFound = true;
+                }
+            }
+            if (styleText.includes('format:')) {
+                const format = styleText.split(':')[1].trim();
+                if (checkedFormats.includes(format)) {
+                    formatFound = true;
+                }
+            }
+            if (styleText.includes('auxiliary:')) {
+                const auxText = styleText.split(':')[1].trim();
+                if ((auxText === 'yes' && auxChecked) || (auxText === 'no' && !auxChecked)) {
+                    // If auxiliary winds and percussion are added and showAuxiliary is checked
+                    // Or if auxiliary winds and percussion are not added and showAuxiliary is not checked
+                    entry.style.display = 'block'; // Show the entry
+                } else {
+                    entry.style.display = 'none'; // Hide the entry
+                }
+            }
+        });
+
+        // Additional logic for filtering based on styles and formats
+        if (styleFound && formatFound) {
+            entry.style.display = 'block'; // Show the entry
+        } else {
+            entry.style.display = 'none'; // Hide the entry
+        }
+    });
+}
+
+
+    auxCheckbox.addEventListener('change', filterMusicEntries);
+
+    const styleCheckboxes = document.querySelectorAll('.style-checkbox');
+    styleCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', filterMusicEntries);
+    });
+
+    const formatCheckboxes = document.querySelectorAll('.format-checkbox');
+    formatCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', filterMusicEntries);
+    });
+
+    filterMusicEntries();
+
+        
+        const toggleButton = document.getElementById("toggleScores");
+    const scoreInfos = document.querySelectorAll(".score-info");
+    toggleButton.addEventListener("click", function() {
+        if (toggleButton.textContent === "Expand") {
+            scoreInfos.forEach(function(scoreInfo) {
+                scoreInfo.style.display = "block";
+            });
+            toggleButton.textContent = "Condense";
+        } else {
+            scoreInfos.forEach(function(scoreInfo) {
+                scoreInfo.style.display = "none";
+            });
+            toggleButton.textContent = "Expand";
+        }
+    });
+
+    const goToTopButton = document.getElementById("goToTop");
+    goToTopButton.addEventListener("click", function(event) {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    const composerLinks = document.querySelectorAll(".composer-menu a");
+    composerLinks.forEach(link => {
+        link.addEventListener("click", function(event) {
+            event.preventDefault();
+            const composerName = this.getAttribute("href").substring(1);
+            const composerSection = document.getElementById(composerName);
+            if (composerSection) {
+                composerSection.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        });
+    });
+
+    const addScoreButton = document.getElementById('addScoreButton');
+    addScoreButton.addEventListener('click', async function() {
+        try {
+            const response = await fetch('/music/new', { method: 'POST' });
+            const data = await response.json();
+            console.log(data);
+            if (response.ok) {
+                window.location.href = `/music/${data.scoreId}`;
+            } else {
+                console.error('Failed to create new score:', data.error);
+            }
+        } catch (error) {
+            console.error('Error creating new score:', error);
+        }
+    });
+
+    const searchInput = document.getElementById("searchInput");
+    const scoreEntries = document.querySelectorAll(".music-entry");
+    searchInput.addEventListener("input", function() {
+        const searchText = normalizeText(this.value);
+        scoreEntries.forEach(function(entry) {
+            const title = normalizeText(entry.querySelector(".score-header h3").textContent);
+            const composer = normalizeText(entry.querySelector(".composer").textContent);
+            const arranger = normalizeText(entry.querySelector(".additional-info p:first-child").textContent);
+            if (title.includes(searchText) || composer.includes(searchText) || arranger.includes(searchText)) {
+                entry.style.display = "block";
+            } else {
+                entry.style.display = "none";
+            }
+        });
+    });
+
+    const toggleComposerMenu = document.getElementById("toggleComposerMenu");
+    const composerMenu = document.getElementById("composerMenu");
+
+    toggleComposerMenu.addEventListener("click", function() {
+        const toggleIcon = document.getElementById("toggleIcon");
+        composerMenu.classList.toggle('hidden');
+        toggleIcon.classList.toggle('fa-users');
+        toggleIcon.classList.toggle('fa-users-slash');
+    });
+
+
+
+
+
+    let isDragging = false;
+    let initialOffset = { x: 0, y: 0 };
+
+    const textFields = composerMenu.querySelectorAll('textarea, input[type="text"]');
+    textFields.forEach(field => {
+        field.addEventListener('mousedown', function(e) {
+            composerMenu.style.cursor = 'text';
+            e.stopPropagation();
+        });
+    });
+
+    composerMenu.addEventListener("mousedown", function(e) {
+        if (!e.target.matches('textarea, input[type="text"]')) {
+            isDragging = true;
+            initialOffset.x = composerMenu.offsetLeft - e.clientX;
+            initialOffset.y = composerMenu.offsetTop - e.clientY;
+            composerMenu.style.cursor = "grabbing";
+            e.preventDefault();
+        }
+    });
+
+    document.addEventListener("mousemove", function(e) {
+        if (isDragging) {
+            composerMenu.style.left = (e.clientX + initialOffset.x) + "px";
+            composerMenu.style.top = (e.clientY + initialOffset.y) + "px";
+        }
+    });
+
+    document.addEventListener("mouseup", function() {
+        isDragging = false;
+        composerMenu.style.cursor = "grab";
+    });
+
+    composerMenu.addEventListener("mouseleave", function() {
+        if (!isDragging) {
+            composerMenu.style.cursor = "grab";
+        }
+    });
+        
+    
+        
+});
+</script>
+</body>
+</html>

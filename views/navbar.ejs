@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="navbar-logo">
+        <img src="/logo.png" alt="School Logo">
+    </div>
+    
+    <div class="navbar-links">
+        <a href="/">Home</a>
+        <a href="/music">Music</a>
+    </div>
+    <div class="navbar-login">
+        <a href="/login"><i class="fas fa-user"></i></a>
+    </div>
+</nav>
+
+
+<style>
+    /* Navigation */
+.navbar {
+    background-color: #8EBA66;
+    padding: 20px 40px;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-logo img {
+    height: 60px;
+}
+
+.navbar-links a {
+    color: #1B3D6D;
+    margin-left: 30px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: bold;
+}
+
+.navbar-links a:hover {
+    color: #47763B;
+}
+
+.navbar-login a {
+    color: #1B3D6D;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navbar-login a:hover {
+    color: #47763B;
+}
+
+</style>
+
+
+
+<!--want this code in ejs so instead of stand alone pg,, make it a modal on currrent page-->
