@@ -1,12 +1,22 @@
-
+import fs from 'fs';
+import path from 'path';
+import * as auth from '../controllers/authController.js';
 import Template from '../models/TemplateModel.js';
 
+
 export const getHome = (req, res) => {
-  res.render('home');
+    // Assuming you have logic to determine the user here
+    const user = req.user;
+    res.render('home', { user }); // Pass the user variable to the home.ejs template
 };
 
 
+
 export const getMusic = async (req, res) => {
+    let user = -1;
+    if (req.user){
+        user = req.user;
+    }
     let sortBy = req.query.sortBy || 'Number';  
     let sortOrder = parseInt(req.query.sortOrder) || 1;  
     let searchQuery = req.query.search || '';
@@ -65,7 +75,7 @@ export const getMusic = async (req, res) => {
         data.uniqueStyles = uniqueStyles;
 
         // Render the music view with the updated data
-        res.render('music', { ...data, searchQuery });
+        res.render('music', { ...data, searchQuery, user });
 
     } catch (error) {
         console.error('Error fetching music:', error);
@@ -80,13 +90,12 @@ export const getScoreDetails = async (req, res) => {
 
     try {
         const score = await Template.findById(scoreId);
-        res.render('scoreDetails', { score });
+        res.render('scoreDetails', { score, user: req.user });
     } catch (error) {
         console.error('Error fetching score details:', error);
         res.status(500).send('Internal Server Error');
     }
 };
-
 
 
 export const updateScoreDetails = async (req, res) => {
@@ -102,11 +111,12 @@ export const updateScoreDetails = async (req, res) => {
         editTime,
         editFormat,
         editNotes,
-        editAuxiliary  
+        editAuxiliary // No change needed here
     } = req.body;
 
-    try { 
-        const auxWindsPercAdded = editAuxiliary === 'true' || editAuxiliary === 'on';  
+    try {
+        // Convert the string value of editAuxiliary to a boolean
+        const auxWindsPercAdded = editAuxiliary === 'true' || editAuxiliary === 'on'; // Handle both 'true' and 'on' for checkbox
 
         await Template.findByIdAndUpdate(scoreId, {
             Number: editNumber,
@@ -119,7 +129,7 @@ export const updateScoreDetails = async (req, res) => {
             Time: editTime,
             Format: editFormat,
             Notes: editNotes,
-            AuxWindsPercAdded: auxWindsPercAdded  
+            AuxWindsPercAdded: auxWindsPercAdded // Update AuxWindsPercAdded field
         });
         res.redirect(`/music/${scoreId}`);
     } catch (error) {
@@ -127,7 +137,6 @@ export const updateScoreDetails = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-
 
 export const createNewScore = async (req, res) => {
     try {

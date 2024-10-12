@@ -130,7 +130,9 @@
         <% } else { %>
             <% data.forEach(elem => { %>
                 <div class="col-md-6 col-lg-4 music-entry">
-                    <a href="/music/<%= elem._id %>" style="color: inherit; text-decoration: none;">
+                    <% if (user !== -1){ %> 
+                       <a href="/music/<%= elem._id %>" style="color: inherit; text-decoration: none;">
+                    <% } %>
                         <div class="score">
                             <div class="score-header">
                                 <h3 class="mb-0"><%= elem.Title %></h3>
@@ -217,7 +219,7 @@
         filterMusicEntries();
     });
 
-    function filterMusicEntries() {
+        function filterMusicEntries() {
     const checkedStyles = Array.from(document.querySelectorAll('.style-checkbox:checked')).map(checkbox => normalizeText(checkbox.value));
     const checkedFormats = Array.from(document.querySelectorAll('.format-checkbox:checked')).map(checkbox => normalizeText(checkbox.value));
     const auxChecked = document.getElementById('showAuxiliary').checked; // Get the state of the showAuxiliary checkbox
@@ -225,43 +227,51 @@
     const allEntries = document.querySelectorAll('.music-entry');
     allEntries.forEach(entry => {
         const styleElements = entry.querySelectorAll('.score-info p');
-        let styleFound = checkedStyles.length === 0;
-        let formatFound = checkedFormats.length === 0;
+        
+        let styleFound = checkedStyles.length === 0;  // Default to true if no styles are checked
+        let formatFound = checkedFormats.length === 0;  // Default to true if no formats are checked
+        let auxMatch = true; // Default to true when auxFilter is off
+
+        // Only apply aux filtering if the toggle is ON
+        if (auxFilter) {
+            auxMatch = false; // Reset to false and check actual state
+            styleElements.forEach(styleElement => {
+                const styleText = normalizeText(styleElement.textContent);
+                if (styleText.includes('auxiliary:')) {
+                    const auxText = styleText.split(':')[1].trim();
+                    if ((auxText === 'yes' && auxChecked) || (auxText === 'no' && !auxChecked)) {
+                        auxMatch = true; // Match found based on checkbox state
+                    }
+                }
+            });
+        }
 
         styleElements.forEach(styleElement => {
             const styleText = normalizeText(styleElement.textContent);
             if (styleText.includes('style:')) {
                 const style = styleText.split(':')[1].trim();
                 if (checkedStyles.includes(style)) {
-                    styleFound = true;
+                    styleFound = true;  // A matching style is found
                 }
             }
             if (styleText.includes('format:')) {
                 const format = styleText.split(':')[1].trim();
                 if (checkedFormats.includes(format)) {
-                    formatFound = true;
-                }
-            }
-            if (styleText.includes('auxiliary:')) {
-                const auxText = styleText.split(':')[1].trim();
-                if ((auxText === 'yes' && auxChecked) || (auxText === 'no' && !auxChecked)) {
-                    // If auxiliary winds and percussion are added and showAuxiliary is checked
-                    // Or if auxiliary winds and percussion are not added and showAuxiliary is not checked
-                    entry.style.display = 'block'; // Show the entry
-                } else {
-                    entry.style.display = 'none'; // Hide the entry
+                    formatFound = true;  // A matching format is found
                 }
             }
         });
 
-        // Additional logic for filtering based on styles and formats
-        if (styleFound && formatFound) {
+        // Show the entry if styles and formats match, and auxiliary match if filter is active
+        if (styleFound && formatFound && auxMatch) {
             entry.style.display = 'block'; // Show the entry
         } else {
             entry.style.display = 'none'; // Hide the entry
         }
     });
 }
+
+
 
 
     auxCheckbox.addEventListener('change', filterMusicEntries);
@@ -402,5 +412,8 @@
         
 });
 </script>
+
+<%- include('footer.ejs') %>
+
 </body>
 </html>

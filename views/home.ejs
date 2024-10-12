@@ -1,25 +1,57 @@
-<!-- home.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <title>Home - Orchestra Program</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/styles.css">
-</head>
-
-<body>
-    <% include('navbar.ejs') %>
-    <h1 class="text-center mt-5 mb-4">Welcome to Your Home</h1>
-    
-
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+</head>
+<body>
 
+    <%- include('navbar.ejs') %>
+
+    <div class="container">
+        <h1 class="text-center title">Orchestra Program</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title">Chamber Orchestra</h2>
+                <p>The Chamber Orchestra is our premier ensemble, designed for advanced musicians who are looking to take their skills to the next level. This group focuses on a repertoire that is both challenging and rewarding, featuring a range of styles from classical to contemporary works. Members of the Chamber Orchestra have opportunities to perform in high-profile concerts, competitions, and community events.</p>
+                <strong>Key Features:</strong>
+                <ul>
+                    <li><strong>Advanced Repertoire:</strong> Engage with complex and varied pieces that push your musical boundaries.</li>
+                    <li><strong>Performance Opportunities:</strong> Showcase your talents in prestigious events and concerts.</li>
+                    <li><strong>Skill Development:</strong> Receive high-level instruction that hones your technique and musicality.</li>
+                    <li><strong>Collaboration:</strong> Work closely with other dedicated and talented musicians in a dynamic and supportive environment.</li>
+                </ul>
+                <p>Join the Chamber Orchestra and immerse yourself in a rigorous yet exhilarating musical experience that will refine your artistry and expand your performance horizons.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h2 class="section-title">String Orchestra</h2>
+                <p>The String Orchestra is the perfect place for musicians who are building their foundational skills and seeking to improve their ensemble playing. This group focuses on accessible yet engaging repertoire that helps members develop their technical abilities and musical understanding. The String Orchestra is ideal for students who are passionate about music and eager to grow within a supportive and educational environment.</p>
+                <strong>Key Features:</strong>
+                <ul>
+                    <li><strong>Foundational Repertoire:</strong> Explore a variety of pieces that are suitable for developing musicians.</li>
+                    <li><strong>Educational Focus:</strong> Receive instruction aimed at improving your technique, intonation, and overall musicianship.</li>
+                    <li><strong>Performance Opportunities:</strong> Gain valuable experience performing in concerts and school events.</li>
+                    <li><strong>Community:</strong> Be part of a welcoming group where collaboration and learning are at the forefront.</li>
+                </ul>
+                <p>Join the String Orchestra to enhance your musical journey, build your confidence, and enjoy the camaraderie of playing in an ensemble dedicated to growth and excellence.</p>
+            </div>
+        </div>
+    </div>
+    
+    <%- include('footer.ejs') %>
+
+
+</body>
 </html>
